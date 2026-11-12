@@ -20,10 +20,10 @@ reg [bw-1:0] b_q;
 reg [psum_bw-1:0] c_q;
 reg load_ready_q;
 
-wire mac_out;
+wire [psum_bw-1:0] mac_out;
 
 assign out_e = a_q;
-assign inst_q = inst_e;
+assign inst_e = inst_q;
 assign out_s = mac_out;
 
 mac #(.bw(bw), .psum_bw(psum_bw)) mac_instance (
@@ -44,10 +44,10 @@ always @(posedge clk) begin
 	else begin
 		c_q <= in_n;
 		inst_q[1] <= inst_w[1];
-		if (inst_w[0] == 1'b1 or inst_w[1] == 1'b1) begin
+		if (inst_w[0] == 1'b1 | inst_w[1] == 1'b1) begin
 			a_q <= in_w;
 		end
-		if (inst_w[0] == 1'b1 and load_ready_q == 1'b1) begin
+		if (inst_w[0] == 1'b1 & load_ready_q == 1'b1) begin
 			b_q <= in_w;
 			load_ready_q <= 1'b0;
 		end

@@ -16,7 +16,7 @@ module mac_array (clk, reset, out_s, in_w, in_n, inst_w, valid);
 
   wire [col*row-1:0] valid_temp;
   wire [psum_bw*col*(row+1)-1:0] temp;
-  wire [2*row-1:0] inst_temp;
+  reg [2*row-1:0] inst_temp;
 
   assign temp[psum_bw*col-1:0] = in_n;
   assign out_s = temp[psum_bw*col*(row+1)-1:psum_bw*col*row];
@@ -37,9 +37,9 @@ module mac_array (clk, reset, out_s, in_w, in_n, inst_w, valid);
 
   integer j;
   always @ (posedge clk) begin
-    inst_w_temp[1:0] <= inst_w;
+    inst_temp[1:0] <= inst_w;
     for (j = 1; j < row; j = j + 1)
-    inst_w_temp[2*j +: 2] <= inst_w_temp[2*(j-1) +: 2]; 
+    inst_temp[2*j +: 2] <= inst_temp[2*(j-1) +: 2]; 
   end
 
 
